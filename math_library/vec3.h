@@ -26,40 +26,68 @@ namespace Math {
 		}
 
 		Vec3 operator=(const Vec3& v) {
-
+			Vec3 newVec(v.x, v.y, v.z);
+			return newVec;
 		}
 		Vec3 operator-() {
-
+			Vec3 newVec(-x, -y, -z);
+			return newVec;
 		}
 		Vec3 operator+(const Vec3& v) {
-
+			Vec3 newVec(x + v.x, y + v.y, z + v.z);
+			return newVec;
 		}
 		void operator+=(const Vec3& v) {
-
+			x += v.x;
+			y += v.y;
+			z += v.z;
 		}
 		Vec3 operator-(const Vec3& v) {
-
+			Vec3 newVec(x - v.x, y - v.y, z - v.z);
+			return newVec;
 		}
 		void operator-=(const Vec3& v) {
-
+			x -= v.x;
+			y -= v.y;
+			z -= v.z;
 		}
 		void operator*=(const float v) {
-
+			x *= v;
+			y *= v;
+			z *= v;
 		}
 		Vec3 operator*(const float v) {
-
+			Vec3 newVec(x * v, y * v, z * v);
+			return newVec;
 		}
 		bool operator==(const Vec3& v) {
-			if ((x == v.x) && (y == v.y) && (z = v.z))
+			if ((x == v.x) && (y == v.y) && (z == v.z))
 				return true;
 			else
 				return false;
 		}
 		bool operator!=(const Vec3& v) {
-
+			if ((x != v.x) || (y != v.y) || (z != v.z))
+				return true;
+			else
+				return false;
 		}
 		float operator[](const unsigned int i) {
-
+			if (i > 2) {
+				std::cerr << "Error\n";
+			}
+			else {
+				if (i == 0) {
+					return x;
+				}
+				else if (i == 1) {
+					return y;
+				}
+				else if (i == 2) {
+					return z;
+				}
+			}
+			return -1;
 		}
 
 		float dot(const Vec3& a, const Vec3& b) {
