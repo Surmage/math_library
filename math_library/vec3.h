@@ -26,8 +26,10 @@ namespace Math {
 		}
 
 		Vec3 operator=(const Vec3& v) {
-			Vec3 newVec(v.x, v.y, v.z);
-			return newVec;
+			x = v.x;
+			y = v.y;
+			z = v.z;
+			return *this;
 		}
 		Vec3 operator-() {
 			Vec3 newVec(-x, -y, -z);
@@ -72,10 +74,9 @@ namespace Math {
 			else
 				return false;
 		}
-		float operator[](const unsigned int i) {
-			if (i > 2) {
-				std::cerr << "Error\n";
-			}
+		float& operator[](const unsigned int i) {
+			if (i > 2) 
+				std::cerr << "Error\n";			
 			else {
 				if (i == 0) {
 					return x;
@@ -87,7 +88,8 @@ namespace Math {
 					return z;
 				}
 			}
-			return -1;
+			float invalid = -1;
+			return invalid;
 		}
 
 		float dot(const Vec3& a, const Vec3& b) {
@@ -110,7 +112,35 @@ namespace Math {
 			newVec.y = v.y / vecLen;
 			newVec.z = v.z / vecLen;
 			return newVec;
-		}		
+		}
+		float setElement(const unsigned int i, const float value) {
+			if (i > 2) {
+				std::cerr << "Error\n";
+				return -1;
+			}
+
+			if (i == 0)
+				x = value;
+			else if (i == 1)
+				y = value;
+			else if (i == 2)
+				z = value;
+			return 0;
+		}
+		float getElement(const unsigned int i, const float value) {
+			if (i > 2) {
+				std::cerr << "Error\n";
+				return -1;
+			}
+
+			if (i == 0)
+				return x;
+			else if (i == 1)
+				return y;
+			else if (i == 2)
+				return z;
+			return 0;
+		}
 	};
 
 

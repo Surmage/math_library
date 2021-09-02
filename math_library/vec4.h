@@ -29,9 +29,12 @@ namespace Math {
 			w = v.w;
 		}
 
-		Vec4 operator=(const Vec4& v) {
-			Vec4 newVec(v.x, v.y, v.z, v.w);
-			return newVec;
+		Vec4 operator=(const Vec4& v) { 
+			x = v.x;
+			y = v.y;
+			z = v.z;
+			w = v.w;
+			return *this;
 		}
 		Vec4 operator-() {
 			Vec4 newVec(-x, -y, -z, -w);
@@ -63,8 +66,8 @@ namespace Math {
 			z *= v;
 			w *= v;
 		}
-		Vec4 operator*(const float v) {
-			Vec4 newVec(x * v, y * v, z * v, w * v);
+		Vec4 operator*(const float scalar) {
+			Vec4 newVec(x * scalar, y * scalar, z * scalar, w * scalar);
 			return newVec;
 		}
 		bool operator==(const Vec4& v) {
@@ -99,12 +102,14 @@ namespace Math {
 			}
 			return -1;
 		}
-
 		float dot(const Vec4& a, const Vec4& b) {
-			return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+			if (a.w == 0 && b.w == 0) 
+				return a.x * b.x + a.y * b.y + a.z * b.z;			
+			else
+				return -1;
 		}
 		float length(const Vec4& v) {
-			return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2) + pow(v.w, 2));
+			return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
 		}
 		Vec4 normalize(const Vec4& v) { //convert to unit vector
 			float vecLen = length(v);
@@ -112,8 +117,40 @@ namespace Math {
 			newVec.x = v.x / vecLen;
 			newVec.y = v.y / vecLen;
 			newVec.z = v.z / vecLen;
-			newVec.w = v.w / vecLen;
+			newVec.w = v.w;
 			return newVec;
+		}
+		float setElement(const unsigned int i, const float value) {
+			if (i > 3) {
+				std::cerr << "Error\n";
+				return -1;
+			}
+
+			if (i == 0)
+				x = value;
+			else if (i == 1)
+				y = value;
+			else if (i == 2)
+				z = value;
+			else if (i == 3)
+				w = value;
+			return 0;
+		}
+		float getElement(const unsigned int i, const float value) {
+			if (i > 3) {
+				std::cerr << "Error\n";
+				return -1;
+			}
+
+			if (i == 0)
+				return x;
+			else if (i == 1)
+				return y;
+			else if (i == 2)
+				return z;
+			else if (i == 3)
+				return w;
+			return 0;
 		}
 	};
 }
