@@ -61,7 +61,7 @@ public:
 	} 
 	Vec4& operator[](const unsigned int i) {
 		if (i > 3)
-			std::cerr << "Error\n";
+			std::cerr << "Error\n";		
 		else
 			return matrix[i];
 	}
@@ -70,21 +70,21 @@ public:
 		float deter = 
 		(m.matrix[0].x * 
 		(m.matrix[1].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z)
-		- m.matrix[1].z*(m.matrix[2].y*m.matrix[3].w - m.matrix[2].w*m.matrix[3].y)
-		+m.matrix[1].w*(m.matrix[2].y*m.matrix[3].z - m.matrix[2].z * m.matrix[3].y)) 
+		-m.matrix[1].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
+		+m.matrix[1].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y)) 
 			
 		-m.matrix[0].y *
-		(m.matrix[1].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w*m.matrix[3].z)
+		(m.matrix[1].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z)
 		-m.matrix[1].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-		+m.matrix[1].w * (m.matrix[2].x*m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)) 
+		+m.matrix[1].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)) 
 
 		+m.matrix[0].z *
-		(m.matrix[1].x*(m.matrix[2].y*m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
+		(m.matrix[1].x*(m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
 		-m.matrix[1].y*(m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
-		+m.matrix[1].w*(m.matrix[2].x*m.matrix[3].y - m.matrix[2].y * m.matrix[3].x)) 
+		+m.matrix[1].w*(m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x)) 
 
 		-m.matrix[0].w * 
-		(m.matrix[1].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z*m.matrix[3].y)
+		(m.matrix[1].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y)
 		-m.matrix[1].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
 		+m.matrix[1].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x)) 
 				
@@ -94,6 +94,31 @@ public:
 	}
 		
 	Mat4 inverse(const Mat4& m) {
+		Mat4 temp;
+		temp[0].x = m.matrix[1].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //a
+			- m.matrix[1].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
+			+ m.matrix[1].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x);
+		temp[0].y = m.matrix[1].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //b
+			- m.matrix[1].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
+			+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x);
+		temp[0].z = m.matrix[1].x * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y) //c
+			- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
+			+ m.matrix[1].w * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
+		temp[0].w = m.matrix[1].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y) //d
+			- m.matrix[1].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
+			+ m.matrix[1].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
+		temp[1].x = m.matrix[0].y * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //e
+			- m.matrix[0].z * (m.matrix[2].y * m.matrix[3].w - m.matrix[2].w * m.matrix[3].y)
+			+ m.matrix[0].w * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y);
+		temp[1].y = m.matrix[0].x * (m.matrix[2].z * m.matrix[3].w - m.matrix[2].w * m.matrix[3].z) //f
+			- m.matrix[0].z * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
+			+ m.matrix[0].w * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x);
+		temp[1].z = m.matrix[0].x * (m.matrix[2].y * m.matrix[3].w * m.matrix[2].w * m.matrix[3].y) //g
+			- m.matrix[0].y * (m.matrix[2].x * m.matrix[3].w - m.matrix[2].w * m.matrix[3].x)
+			+ m.matrix[9].w * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
+		temp[1].w = m.matrix[0].x * (m.matrix[2].y * m.matrix[3].z - m.matrix[2].z * m.matrix[3].y) //h
+			- m.matrix[0].y * (m.matrix[2].x * m.matrix[3].z - m.matrix[2].z * m.matrix[3].x)
+			+ m.matrix[0].z * (m.matrix[2].x * m.matrix[3].y - m.matrix[2].y * m.matrix[3].x);
 
 	}
 	Mat4 transpose(const Mat4& m) { 
